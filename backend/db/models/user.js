@@ -48,7 +48,11 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
   User.associate = function(models) {
-    // associations can be defined here
+    User.hasMany(models.SoundBite, {foreignKey: 'userId'})
+    User.hasmany(models.Library, {foreignKey: 'userId'})
+    User.hasMany(models.Comment, {foreignKey: 'userId'})
+    User.hasMany(models.Subscription, {foreignKey: 'userId'})
+    User.belongsTo(models.Subscription, {foreignKey: 'creatorUserId'})
   };
   User.prototype.toSafeObject = function() { // remember, this cannot be an arrow function
     const { id, username, email } = this; // context will be the User instance
