@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   SoundBite.associate = function(models) {
     SoundBite.belongsTo(models.User, {foreignKey: 'userId'})
     SoundBite.belongsTo(models.Library, { foreignKey: 'libraryId'})
+    SoundBite.hasMany(models.Comment, {foreignKey: 'soundBiteId'})
   };
   return SoundBite;
 };
