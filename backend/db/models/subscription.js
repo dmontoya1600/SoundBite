@@ -9,14 +9,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     creatorUserId: {
       type: DataTypes.INTEGER,
-      references: {
-        model: 'User'
-      }
     }
   }, {});
   Subscription.associate = function(models) {
     Subscription.belongsTo(models.User, { foreignKey: 'userId'})
-    Subscription.hasMany(models.User, { foreignKey: 'creatorUserId'})
+    Subscription.belongsTo(models.User, {foreignKey: 'creatorUserId'})
   };
   return Subscription;
 };
