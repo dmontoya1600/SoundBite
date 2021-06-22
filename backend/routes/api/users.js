@@ -33,7 +33,6 @@ const validateSignup = [
     asyncHandler(async (req, res) => {
       const { email, password, username } = req.body;
       const user = await User.signup({ email, username, password });
-      console.log('WORKING SO FAR')
       await setTokenCookie(res, user);
 
       return res.json({
