@@ -5,6 +5,7 @@ const { User } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
+const {singlePublicFileUpload, singleMulterUpload} = require('../../awsS3')
 
 const validateSignup = [
     check('email')
@@ -41,7 +42,22 @@ const validateSignup = [
     }),
   );
 
+  router.put(
+    "/:id",
+    singleMulterUpload("image"),
+    asyncHandler(async (req, res) => {
+      const userId = req.params.id;
+      const profileImageUrl = await singlePublicFileUpload(req.file);
+      console.log('this is the user ID', userId)
+      const user = await User.findByPk(userId)
+      console.log('THIS HAS BEEN HIT')
+      await user.update({
+        imgUrl: profileImageUrl
+      });
+      setTokenCookie(res, user);
 
+    })
+  );
 
 
   module.exports = router;
