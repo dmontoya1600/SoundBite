@@ -17,15 +17,32 @@
     border-radius: 50%;
     height: 200px;
     width: 200px;
+    opacity: .8;
 }
 .subscribe{
-    background-color: rgb(102, 33, 249);
+    background-color: rgba(255, 106, 0, 0.868);
     margin-left: auto;
     align-self: flex-end;
-
+    display: flex;
+    justify-content: center;
+    border-radius: 10%;
+    padding: 10px;
+}
+.subscribe:hover{
+    background-color: rgb(200, 83, 0);
 }
 .profile-text{
     background-color: rgba(141, 83, 3, 0.587);
+}
+.upload-photo{
+    background-color: rgba(255, 106, 0, 0.854);
+    border-radius: 10%;
+    display: flex;
+    justify-content: center;
+}
+.upload-photo:hover{
+    background-color: rgb(200, 83, 0);
+
 }
 body{
     background-color: rgb(62, 62, 62);

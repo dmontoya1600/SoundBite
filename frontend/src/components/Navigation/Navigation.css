@@ -13,6 +13,7 @@
   text-decoration: none;
   font-size: 17px;
 }
+
 .home{
     margin-left: auto;
 }
@@ -22,4 +23,8 @@
 .topnav a:hover {
     background-color: rgb(255, 106, 0);
     color: black;
-  }
+}
+.active{
+    background-color: rgb(255, 106, 0);
+    color: black;
+}

@@ -22,21 +22,21 @@ function Navigation({ isLoaded }){
     sessionLinks = (
       <>
         <a onClick={logout}>Log Out</a>
-        <NavLink class='userPage' to={`/user/${sessionUser.id}`} >Profile</NavLink>
+        <NavLink class='userPage' activeClassName='active' to={`/user/${sessionUser.id}`} >Profile</NavLink>
       </>
     );
   } else {
     sessionLinks = (
       <>
-        <NavLink to="/login" className='login'>Log In</NavLink>
-        <NavLink to="/signup" className='signup'>Sign Up</NavLink>
+        <NavLink to="/login" activeClassName='active' className='login'>Log In</NavLink>
+        <NavLink to="/signup" activeClassName='active' className='signup'>Sign Up</NavLink>
       </>
     );
   }
 
   return (
     <div className='topnav'>
-      <NavLink exact to="/" className='home'>Home</NavLink>
+      <NavLink exact to="/" activeClassName='active' className='home'>Home</NavLink>
       {isLoaded && sessionLinks}
     </div>
 

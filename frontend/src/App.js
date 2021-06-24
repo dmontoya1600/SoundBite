@@ -8,6 +8,7 @@ import sessionReducer from "./store/session";
 import Navigation from "./components/Navigation";
 import {useSelector} from 'react-redux'
 import UserPage from './components/UserPage'
+import HomePage from './components/HomePage'
 
 
 
@@ -23,6 +24,9 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route exact path='/'>
+            <HomePage />
+          </Route>
           <Route path="/login">
             <LoginFormPage />
           </Route>

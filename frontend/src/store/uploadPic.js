@@ -60,7 +60,7 @@ export const getUser = (userId => async (dispatch) => {
     const uploadPicReducer = (state = {}, action) => {
         switch(action.type) {
             case UPLOAD_PIC:
-              let newState = {}
+              let newState = {...state}
               newState.pic = action.payload;
               console.log(newState)
               return newState

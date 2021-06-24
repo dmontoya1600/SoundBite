@@ -20,6 +20,7 @@ const UserPage = () =>{
     const dispatch = useDispatch();
     const [imageUrl, setImageUrl] = useState('')
     const [pageUser, setPageUser] = useState({})
+    const images = useSelector(state =>  state.pic)
 
     const imgUrl = dispatch(loadImage(paramId))
     const loadedUser = dispatch(getUser(paramId))
@@ -30,7 +31,7 @@ const UserPage = () =>{
         console.log('THIS IS THE USER OBJ', await loadedUser)
         setImageUrl(await imgUrl)
         setPageUser(await loadedUser)
-    }, [])
+    }, [images])
 
     if(imageUpload){
         return <UploadImage hideForm={() => setImageUpload(null)}/>
@@ -43,20 +44,20 @@ const UserPage = () =>{
                 <div className='image-button'>
                     {imageUrl ? <img className='profilePic' src={imageUrl}/> : <img className='profilePic' src={`https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg`}/>}
 
-                    {paramId === currentUser.id ? <button onClick={() => setImageUpload(true)}>
+                    {paramId === currentUser.id ? <div  className='upload-photo' onClick={() => setImageUpload(true)}>
                         Upload Photo
-                    </button> : null}
+                    </div> : null}
                 </div>
                 <div>
                     <h1 className='profile-text'>
                         {pageUser.username}
                     </h1>
-                    <h2 className='profile-text'>
+                    <h3 className='profile-text'>
                         Follwing:
-                    </h2>
-                    <h2 className='profile-text'>
+                    </h3>
+                    <h3 className='profile-text'>
                         Followers:
-                    </h2>
+                    </h3>
                 </div>
                 <div className='subscribe'>
                     Follow
