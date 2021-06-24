@@ -1,12 +1,14 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import followerReducer from './follow';
 
 import sessionReducer from './session';
 import uploadPicReducer from './uploadPic'
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  pic: uploadPicReducer
+  pic: uploadPicReducer,
+  followers: followerReducer,
 });
 let enhancer;
 

@@ -5,10 +5,13 @@ import UploadImage from './UploadImage';
 import './UserPage.css'
 import * as picActions from '../../store/uploadPic'
 import {loadImage, getUser} from '../../store/uploadPic'
+import {createFollow} from '../../store/follow'
 
 
 const UserPage = () =>{
     let currentUser = useSelector(state => state.session.user)
+    let followCount = useSelector(state => state.followers.follow)
+    console.log('THIS IS FOLLOW COUNT', followCount)
     if(!currentUser){
         currentUser = {
             id:0
@@ -20,6 +23,7 @@ const UserPage = () =>{
     const dispatch = useDispatch();
     const [imageUrl, setImageUrl] = useState('')
     const [pageUser, setPageUser] = useState({})
+    const [followers, setFollowers] = useState(followCount)
     const images = useSelector(state =>  state.pic)
 
     const imgUrl = dispatch(loadImage(paramId))
@@ -27,8 +31,9 @@ const UserPage = () =>{
 
     console.log('THIS IS THE PAGE USER',pageUser)
     useEffect(async () => {
-        console.log('THIS IS THE IMG URL', await imgUrl.then())
-        console.log('THIS IS THE USER OBJ', await loadedUser)
+        setFollowers(followCount)
+    }, [followCount])
+    useEffect(async () => {
         setImageUrl(await imgUrl)
         setPageUser(await loadedUser)
     }, [images])
@@ -37,7 +42,10 @@ const UserPage = () =>{
         return <UploadImage hideForm={() => setImageUpload(null)}/>
 
     }
-    console.log('THIS IS THE IMG URL', imageUrl)
+
+    function handleFollow (e) {
+        dispatch(createFollow(currentUser.id, paramId))
+    }
     return (
         <body className='page'>
             <div className='profile-banner'>
@@ -59,7 +67,9 @@ const UserPage = () =>{
                         Followers:
                     </h3>
                 </div>
-                <div className='subscribe'>
+                {/* MAKE SURE TO MAKE IT IMPOSSIBLE FOR NON-AUTH USERS TO Follow
+                MAKE SURE TO CHANGE THE FOLLOW AND UNFOLLOW BUTTONS WHEN FOLLOWING USER */}
+                <div onClick={handleFollow} className='subscribe'>
                     Follow
                 </div>
             </div>

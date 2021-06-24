@@ -1,7 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, Subsciption } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
@@ -47,6 +47,15 @@ const validateSignup = [
     asyncHandler(async (req, res) => {
       const userId = req.params.id;
       const user = await User.findByPk(userId)
+      // const pageowner = await User.findAll({
+      //   where:{id: userId},
+      //   include: {
+      //     Subsciption,
+      //     where: {
+      //       userId: userId
+      //     }
+      //   }
+      // })
       return res.json(user)
     })
   )
