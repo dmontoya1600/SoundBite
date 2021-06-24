@@ -18,7 +18,6 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
   const sessionUser = useSelector(state => state.session.user);
-  console.log(sessionUser)
   return (
     <>
       <Navigation isLoaded={isLoaded} />
@@ -31,7 +30,7 @@ function App() {
             <SignupFormPage />
           </Route>
           <Route path='/user/:userId'>
-            {sessionUser ? <UserPage /> : <Redirect to='/'/>}
+            <UserPage />
           </Route>
         </Switch>
       )}

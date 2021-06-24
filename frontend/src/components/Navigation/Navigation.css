@@ -1,0 +1,25 @@
+.topnav {
+    background-color: black;
+    overflow: hidden;
+    display:flex;
+    justify-content: flex-start
+  }
+
+.topnav a{
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+.home{
+    margin-left: auto;
+}
+/* .userPage{
+    margin-right: auto;
+} */
+.topnav a:hover {
+    background-color: rgb(255, 106, 0);
+    color: black;
+  }

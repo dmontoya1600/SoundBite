@@ -42,6 +42,15 @@ const validateSignup = [
     }),
   );
 
+  router.get(
+    '/:id',
+    asyncHandler(async (req, res) => {
+      const userId = req.params.id;
+      const user = await User.findByPk(userId)
+      return res.json(user)
+    })
+  )
+
   router.put(
     "/:id",
     singleMulterUpload("image"),
@@ -54,8 +63,8 @@ const validateSignup = [
       await user.update({
         imgUrl: profileImageUrl
       });
-      setTokenCookie(res, user);
 
+      return res.json(profileImageUrl)
     })
   );
 

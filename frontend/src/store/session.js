@@ -2,6 +2,14 @@ import { csrfFetch } from './csrf';
 import { useSelector } from 'react-redux';
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
+const UPLOAD_PIC = 'session/updatePic'
+
+const setPic = (imgUrl) => {
+  return {
+    type: UPLOAD_PIC,
+    payload: imgUrl
+  }
+}
 
 const setUser = (user) => {
   return {
@@ -43,7 +51,6 @@ export const uploadPic = (image, userId) => async (dispatch) => {
       console.log('IMAGE EXISTS')
       formData.append("image", image)};
 
-    console.log('this is the data', formData.get('image'))
     const res = await csrfFetch(`/api/users/${userId}`, {
       method: "PUT",
       headers: {
@@ -52,6 +59,10 @@ export const uploadPic = (image, userId) => async (dispatch) => {
       body: formData,
     });
     const data = await res.json();
+    console.log(data)
+    dispatch(setPic(data.imgUrl));
+    return data
+
   };
 
   export const signup = (user) => async (dispatch) => {
