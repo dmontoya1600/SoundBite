@@ -11,6 +11,7 @@ import {createFollow, getFollowers, removeFollow} from '../../store/follow'
 const UserPage = () =>{
     let currentUser = useSelector(state => state.session.user)
     let followCount = useSelector(state => state.followers)
+    let history = useHistory();
     if(!currentUser){
         currentUser = {
             id:0
@@ -19,11 +20,14 @@ const UserPage = () =>{
 
     const paramId = Number(useParams().userId);
     const [imageUpload, setImageUpload] = useState(null)
-    const dispatch = useDispatch();
     const [imageUrl, setImageUrl] = useState('')
     const [pageUser, setPageUser] = useState({})
     const [alreadyFollowed, setAlreadyFollowed] = useState(false)
     const [followers, setFollowers] = useState(followCount)
+    const [following, setFollowing] = useState(0)
+    const [isOpen, setIsOpen] = useState(false);
+
+    const dispatch = useDispatch();
     const images = useSelector(state =>  state.pic)
     const changeInFollowers = useSelector(state => state.follow)
     const imgUrl = dispatch(loadImage(paramId))
@@ -49,7 +53,7 @@ const UserPage = () =>{
     useEffect(async () => {
         const followCount = await userFollowers
         setFollowers(followCount.followCount)
-
+        setFollowing(followCount.followingCount)
 
     }, [changeInFollowers])
 
@@ -60,18 +64,26 @@ const UserPage = () =>{
     }
 
     function handleFollow (e) {
-        dispatch(createFollow(currentUser.id, paramId))
+        if(currentUser.id < 1){
+            history.push('/login')
+        }else{
+            dispatch(createFollow(currentUser.id, paramId))
+        }
     }
     function handleUnfollow(e) {
         dispatch(removeFollow(currentUser.id, paramId))
     }
+    function handleUpload () {
+        setIsOpen(!isOpen)
+    }
     return (
         <body className='page'>
             <div className='profile-banner'>
+                {isOpen && <UploadImage hideForm={() => setIsOpen(false)} />}
                 <div className='image-button'>
                     {imageUrl ? <img className='profilePic' src={imageUrl}/> : <img className='profilePic' src={`https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg`}/>}
 
-                    {paramId === currentUser.id ? <div  className='upload-photo' onClick={() => setImageUpload(true)}>
+                    {paramId === currentUser.id ? <div  className='upload-photo' onClick={handleUpload}>
                         Upload Photo
                     </div> : null}
                 </div>
@@ -80,19 +92,19 @@ const UserPage = () =>{
                         {pageUser.username}
                     </h1>
                     <h3 className='profile-text'>
-                        Follwing:
+                        Following:{following > 0 ? following : 0}
                     </h3>
                     <h3 className='profile-text'>
                         Followers:{followers > 0 ? followers : 0}
                     </h3>
                 </div>
-                {/* MAKE SURE TO MAKE IT IMPOSSIBLE FOR NON-AUTH USERS TO Follow
-                MAKE SURE TO CHANGE THE FOLLOW AND UNFOLLOW BUTTONS WHEN FOLLOWING USER */}
                 {!alreadyFollowed ? <div onClick={handleFollow} className='subscribe'>
                     Follow
                 </div> : <div onClick={handleUnfollow} className='subscribe'> Unfollow </div>}
 
             </div>
+            {/* <COMP> FOR LIBRARIES (WHICH SHOULD RETURN DIV WITH BUTTON TO CREATE
+                AND NESTED DIV WITH GRID LAYOUT TO DISPLAY LIBRYS) */}
         </body>
     )
 }

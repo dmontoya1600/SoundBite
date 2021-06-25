@@ -18,8 +18,10 @@ const UploadImage = ({hideForm}) => {
         hideForm()
     }
     return (
-        <div>
-            <input  type='file' placeholder='imageUrl' onChange={uploadFile}/>
+        <div className='popup-background'>
+            <div className='box'>
+                <input  type='file' placeholder='imageUrl' onChange={uploadFile}/>
+            </div>
         </div>
     )
 }

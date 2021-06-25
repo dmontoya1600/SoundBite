@@ -14,6 +14,13 @@ router.get(
         const subscribers = await Subscription.findAll({
             where: {creatorUserId: creatorId}
         })
+        const subbedTo = await Subscription.findAll({
+            where: {userId: creatorId}
+        })
+        let subbedToCount = 0;
+        subbedTo.forEach(sub => {
+            subbedToCount++
+        })
         let subCount = 0
         let userArr = []
         subscribers.forEach(sub => {
@@ -22,6 +29,7 @@ router.get(
         })
 
         res.json({
+            followingCount: subbedToCount,
             followCount: subCount,
             userIdArray: userArr
         })
