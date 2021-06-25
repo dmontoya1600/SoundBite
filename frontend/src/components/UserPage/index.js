@@ -11,7 +11,6 @@ import {createFollow, getFollowers, removeFollow} from '../../store/follow'
 const UserPage = () =>{
     let currentUser = useSelector(state => state.session.user)
     let followCount = useSelector(state => state.followers)
-    console.log('THIS IS FOLLOW COUNT LINE 14', followCount)
     if(!currentUser){
         currentUser = {
             id:0
@@ -27,14 +26,12 @@ const UserPage = () =>{
     const [followers, setFollowers] = useState(followCount)
     const images = useSelector(state =>  state.pic)
     const changeInFollowers = useSelector(state => state.follow)
-    console.log('CHECKING REDUCER', changeInFollowers)
     const imgUrl = dispatch(loadImage(paramId))
     const loadedUser = dispatch(getUser(paramId))
     const userFollowers = dispatch(getFollowers(paramId))
 
     useEffect(async () => {
         const users = await userFollowers
-        console.log('THIS IS THE USER ARRAY', users.userIdArray)
         if(users.userIdArray.includes(currentUser.id)){
             setAlreadyFollowed(true)
         } else{
@@ -50,7 +47,6 @@ const UserPage = () =>{
     }, [images])
 
     useEffect(async () => {
-        console.log('DETECTED CHANGE IN FOLLOWERS')
         const followCount = await userFollowers
         setFollowers(followCount.followCount)
 

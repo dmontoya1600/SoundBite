@@ -12,7 +12,6 @@ const UploadImage = ({hideForm}) => {
     const userId = useSelector(state => state.session.user.id)
     const picUrl = useSelector(state=> state.pic)
     useEffect(async () => {
-        console.log('this is the front end IMG', await picUrl)
     }, [picUrl])
      async function uploadFile(e) {
        await dispatch(picActions.uploadPic(e.target.files[0], userId))

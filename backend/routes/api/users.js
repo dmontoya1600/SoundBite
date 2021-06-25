@@ -66,9 +66,7 @@ const validateSignup = [
     asyncHandler(async (req, res) => {
       const userId = req.params.id;
       const profileImageUrl = await singlePublicFileUpload(req.file);
-      console.log('this is the user ID', userId)
       const user = await User.findByPk(userId)
-      console.log('THIS HAS BEEN HIT')
       await user.update({
         imgUrl: profileImageUrl
       });

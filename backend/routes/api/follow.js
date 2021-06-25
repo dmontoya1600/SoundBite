@@ -20,7 +20,7 @@ router.get(
             subCount++
             userArr.push(sub.userId)
         })
-        console.log('THIS USER HAS ', subCount)
+
         res.json({
             followCount: subCount,
             userIdArray: userArr
@@ -38,12 +38,11 @@ router.post(
             where:{userId: userId}
         })
         if(!checkSub){
-            console.log('IS THERE A SUB? no')
             await Subscription.create({
                 creatorUserId: creatorId,
                 userId: userId
             })
-        } else console.log('THERE ALREADY IS A SUB')
+        }
         return res.json({
             alreadyFollowed: checkSub ? true : false
         })

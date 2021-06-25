@@ -22,7 +22,6 @@ export const uploadPic = (image, userId) => async (dispatch) => {
     const formData = new FormData();
 
       if (image) {
-        console.log('IMAGE EXISTS')
         formData.append("image", image)};
 
       const res = await csrfFetch(`/api/users/${userId}`, {
@@ -33,7 +32,6 @@ export const uploadPic = (image, userId) => async (dispatch) => {
         body: formData,
       });
       const data = await res.json();
-      console.log(data)
       dispatch(setPic(data.imageUrl));
       return data
 
@@ -62,7 +60,6 @@ export const getUser = (userId => async (dispatch) => {
             case UPLOAD_PIC:
               let newState = {...state}
               newState.pic = action.payload;
-              console.log(newState)
               return newState
             default:
                 return state;

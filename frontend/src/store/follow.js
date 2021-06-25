@@ -29,14 +29,12 @@ export const removeFollow = (userId, pageId) => async (dispatch) => {
         body: JSON.stringify({userId: userId})
     })
     const data = await res.json();
-    console.log('DISPATCH IS BEING HIT FOR DELETE')
     dispatch(deleteFollow())
     return data
 }
 export const getFollowers = (pageId) => async (dispatch) => {
     const res = await csrfFetch(`/api/follow/${pageId}`)
     const data = await res.json();
-    console.log('THIS IS THE FOLLOWER DATA', data)
     dispatch(loadFollow(data.followCount))
     return data
 }
@@ -50,7 +48,6 @@ export const createFollow = (userId, pageId) => async (dispatch) => {
     })
     const data = await res.json();
     if(!data.alreadyFollowed){
-        console.log('DISPATCH IS BEING CALLED')
         dispatch(addFollow())
     }
     return data
@@ -63,13 +60,10 @@ const followerReducer = (state = {}, action) => {
             newState = Object.assign({}, state);
             if(newState.followers >= 0) newState.followers++;
             else newState.followers = 1;
-            console.log('THIS IS THE NEW STATE', newState);
             return newState;
         case REMOVE_FOLLOW:
             newState = Object.assign({}, state);
             newState.followers--;
-            console.log('THIS IS THE NEW DELETED STATE', newState);
-
             return newState;
         // case LOAD_FOLLOW:
         //     newState = {...state}
