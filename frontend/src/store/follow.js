@@ -2,16 +2,24 @@ import { csrfFetch } from './csrf';
 
 const ADD_FOLLOW = 'follow/addFollow'
 const REMOVE_FOLLOW = 'follow/removeFollow'
+const LOAD_FOLLOW = 'follow/loadFollow'
 
-const addFollow = () => {
+const addFollow = (num = 1) => {
     return {
         type: ADD_FOLLOW,
         payload: 1
     }
 }
+const loadFollow = (followCount) =>{
+    return {
+        type: LOAD_FOLLOW,
+        payload: followCount
+    }
+}
 const deleteFollow = () => {
     return {
-        type: REMOVE_FOLLOW
+        type: REMOVE_FOLLOW,
+        payload: 1
     }
 }
 export const removeFollow = (userId, pageId) => async (dispatch) => {
@@ -21,7 +29,15 @@ export const removeFollow = (userId, pageId) => async (dispatch) => {
         body: JSON.stringify({userId: userId})
     })
     const data = await res.json();
+    console.log('DISPATCH IS BEING HIT FOR DELETE')
     dispatch(deleteFollow())
+    return data
+}
+export const getFollowers = (pageId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/follow/${pageId}`)
+    const data = await res.json();
+    console.log('THIS IS THE FOLLOWER DATA', data)
+    dispatch(loadFollow(data.followCount))
     return data
 }
 
@@ -33,7 +49,10 @@ export const createFollow = (userId, pageId) => async (dispatch) => {
         body: JSON.stringify({userId: userId})
     })
     const data = await res.json();
-    dispatch(addFollow())
+    if(!data.alreadyFollowed){
+        console.log('DISPATCH IS BEING CALLED')
+        dispatch(addFollow())
+    }
     return data
 }
 
@@ -41,14 +60,21 @@ const followerReducer = (state = {}, action) => {
     let newState;
     switch(action.type){
         case ADD_FOLLOW:
-            newState = {...state}
-            if(newState.follow >= 0) newState.follow++;
-            else newState.follow = 1;
-            return newState
+            newState = Object.assign({}, state);
+            if(newState.followers >= 0) newState.followers++;
+            else newState.followers = 1;
+            console.log('THIS IS THE NEW STATE', newState);
+            return newState;
         case REMOVE_FOLLOW:
-            newState = {...state}
-            newState.follow--;
-            return newState
+            newState = Object.assign({}, state);
+            newState.followers--;
+            console.log('THIS IS THE NEW DELETED STATE', newState);
+
+            return newState;
+        // case LOAD_FOLLOW:
+        //     newState = {...state}
+        //     newState.follow = action.payload
+        //     return newState
         default:
             return state
     }

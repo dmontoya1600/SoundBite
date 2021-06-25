@@ -8,7 +8,7 @@ import uploadPicReducer from './uploadPic'
 const rootReducer = combineReducers({
   session: sessionReducer,
   pic: uploadPicReducer,
-  followers: followerReducer,
+  follow: followerReducer,
 });
 let enhancer;
 

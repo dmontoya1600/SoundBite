@@ -22,7 +22,7 @@ function Navigation({ isLoaded }){
     sessionLinks = (
       <>
         <a onClick={logout}>Log Out</a>
-        <NavLink class='userPage' activeClassName='active' to={`/user/${sessionUser.id}`} >Profile</NavLink>
+        <NavLink className='userPage' activeClassName='active' to={`/user/${sessionUser.id}`} >Profile</NavLink>
       </>
     );
   } else {

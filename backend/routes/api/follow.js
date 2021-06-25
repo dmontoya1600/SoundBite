@@ -7,19 +7,59 @@ const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 const {singlePublicFileUpload, singleMulterUpload} = require('../../awsS3')
 
+router.get(
+    '/:id',
+    asyncHandler(async(req,res) => {
+        const creatorId = parseInt(req.params.id);
+        const subscribers = await Subscription.findAll({
+            where: {creatorUserId: creatorId}
+        })
+        let subCount = 0
+        let userArr = []
+        subscribers.forEach(sub => {
+            subCount++
+            userArr.push(sub.userId)
+        })
+        console.log('THIS USER HAS ', subCount)
+        res.json({
+            followCount: subCount,
+            userIdArray: userArr
+        })
+    })
+)
+
 router.post(
     '/:id',
     asyncHandler
    (async(req, res) => {
         const creatorId = parseInt(req.params.id);
         const userId = req.body.userId
-
-        await Subscription.create({
-            creatorUserId: creatorId,
-            userId: userId
+        const checkSub = await Subscription.findOne({
+            where:{userId: userId}
+        })
+        if(!checkSub){
+            console.log('IS THERE A SUB? no')
+            await Subscription.create({
+                creatorUserId: creatorId,
+                userId: userId
+            })
+        } else console.log('THERE ALREADY IS A SUB')
+        return res.json({
+            alreadyFollowed: checkSub ? true : false
+        })
+    })
+)
+router.delete(
+    '/:id',
+    asyncHandler
+   (async(req, res) => {
+        const creatorId = parseInt(req.params.id);
+        const userId = req.body.userId
+        const checkSub = await Subscription.destroy({
+            where:{userId: userId}
         })
         return res.json({
-            userId: userId
+            deleted: true
         })
     })
 )
