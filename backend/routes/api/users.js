@@ -1,7 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Subsciption } = require('../../db/models');
+const { User, Subscription, Library } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
@@ -74,6 +74,71 @@ const validateSignup = [
       return res.json(profileImageUrl)
     })
   );
+
+  router.put(
+    '/',
+    validateSignup,
+    asyncHandler(async(req, res) => {
+      const { email, password, username, userId } = req.body;
+      const user = await User.findByPk(userId)
+      await user.update({
+        username,
+        email,
+        password
+      })
+      await setTokenCookie(res, user);
+
+      return res.json({
+        user,
+      });
+    })
+  )
+
+  router.delete(
+    '/:id',
+    asyncHandler(async(req, res) => {
+      const userId = req.params.id;
+      console.log('THIS IS THE USER ID', userId)
+      await Subscription.destroy({
+        where:{creatorUserId: userId}
+      })
+      await Subscription.destroy({
+        where: {userId: userId}
+      })
+      await User.destroy({
+        where: {id: userId}
+      })
+
+      res.clearCookie('token');
+      return res.json({ message: 'success' });
+    })
+  );
+
+  router.get(
+    '/:id/libraries',
+    asyncHandler(async(req, res) => {
+      const userId = req.params.id;
+      console.log('THIS ROUTE HAS BEEN HIT')
+      const libraries = await Library.findAll({
+        where: {userId}
+      })
+      return res.json(libraries)
+    })
+)
+
+router.post(
+  '/:id/libraries',
+    asyncHandler(async(req, res) =>{
+        const {title, imageUrl} = req.body;
+        const userId = req.params.id;
+        const library = await Library.create({
+          title,
+          imageUrl,
+          userId,
+        })
+        res.json(library)
+      }
+))
 
 
   module.exports = router;

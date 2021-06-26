@@ -27,7 +27,7 @@ input[type=text], select, textarea {
     margin-bottom: 16px; /* Bottom margin */
     resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
   }
-  button[type=submit] {
+  .submit {
     background-color: rgb(255, 106, 0);
     color: white;
     padding: 12px 20px;
@@ -36,6 +36,6 @@ input[type=text], select, textarea {
     cursor: pointer;
   }
 
-  button[type=submit]:hover {
+  .submit:hover {
     background-color: rgb(175, 75, 4);
   }

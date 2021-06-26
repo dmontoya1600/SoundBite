@@ -1,3 +1,5 @@
+import { ADD_LIBRARY, LOAD_LIBRARIES} from './library';
+
 import { csrfFetch } from './csrf';
 import { useSelector } from 'react-redux';
 const SET_USER = 'session/setUser';
@@ -63,6 +65,23 @@ export const uploadPic = (image, userId) => async (dispatch) => {
 
   };
 
+  export const update = (user) => async (dispatch) => {
+    const { username, email, password, userId } = user;
+    const response = await csrfFetch("/api/users", {
+      method: 'PUT',
+      body: JSON.stringify({
+        userId,
+        username,
+        email,
+        password,
+      })
+    })
+    const data = await response.json();
+    dispatch(setUser(data.user));
+
+    return response;
+  }
+
   export const signup = (user) => async (dispatch) => {
     const { username, email, password } = user;
     const response = await csrfFetch("/api/users", {
@@ -86,6 +105,19 @@ export const uploadPic = (image, userId) => async (dispatch) => {
     return response;
   };
 
+  export const deleteUser = (userId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/users/${userId}`, {
+      method: 'DELETE'
+    })
+
+    const response = await csrfFetch('/api/session', {
+      method: 'DELETE',
+    });
+    dispatch(removeUser());
+    return response;
+  };
+
+
 export const initialState = { user: null };
 
 const sessionReducer = (state = initialState, action) => {
@@ -99,6 +131,31 @@ const sessionReducer = (state = initialState, action) => {
       newState = Object.assign({}, state);
       newState.user = null;
       return newState;
+    case LOAD_LIBRARIES: {
+      console.log('LOAD IN SESSIION IS BEING HIT', {
+        ...state,
+        [action.userId]: {
+          ...state[action.userId],
+          libraries: action.libraries.map(library => library.id),
+        }
+      })
+      return {
+        ...state,
+        [action.userId]: {
+          ...state[action.userId],
+          libraries: action.libraries.map(library => library.id),
+        }
+      };
+    }
+    // case ADD_LIBRARY: {
+    //   return {
+    //     ...state,
+    //     [action.library.userId]: {
+    //       ...state[action.library.userId],
+    //       libraries: [...state[action.library.userId], action.library.id],
+    //     },
+    //   };
+    // }
     default:
       return state;
   }

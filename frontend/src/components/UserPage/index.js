@@ -6,10 +6,16 @@ import './UserPage.css'
 import * as picActions from '../../store/uploadPic'
 import {loadImage, getUser} from '../../store/uploadPic'
 import {createFollow, getFollowers, removeFollow} from '../../store/follow'
+import UpdateUser from './UpdateUser'
+import UserLibraries from './libraries';
+import CreateLibrary from './createLibrary'
 
 
 const UserPage = () =>{
     let currentUser = useSelector(state => state.session.user)
+    let currentSession = useSelector(state => state.session)
+
+    console.log('THIS IS T HE CURRENT SESSION', currentSession)
     let followCount = useSelector(state => state.followers)
     let history = useHistory();
     if(!currentUser){
@@ -26,6 +32,10 @@ const UserPage = () =>{
     const [followers, setFollowers] = useState(followCount)
     const [following, setFollowing] = useState(0)
     const [isOpen, setIsOpen] = useState(false);
+    const [isOpen2, setIsOpen2] = useState(false);
+    const [isOpen3, setIsOpen3] = useState(false);
+
+    const [editLibraryId, setEditLibraryId] = useState(null)
 
     const dispatch = useDispatch();
     const images = useSelector(state =>  state.pic)
@@ -49,6 +59,12 @@ const UserPage = () =>{
         setImageUrl(await imgUrl)
         setPageUser(await loadedUser)
     }, [images])
+
+    useEffect(async () => {
+        setPageUser(await loadedUser)
+        setImageUrl(await imgUrl)
+
+    }, [paramId])
 
     useEffect(async () => {
         const followCount = await userFollowers
@@ -76,10 +92,22 @@ const UserPage = () =>{
     function handleUpload () {
         setIsOpen(!isOpen)
     }
+    function handleEdit () {
+        setIsOpen2(!isOpen2)
+    }
+    function handleCreateLibrary () {
+        setIsOpen3(!isOpen3)
+    }
+
     return (
         <body className='page'>
             <div className='profile-banner'>
                 {isOpen && <UploadImage hideForm={() => setIsOpen(false)} />}
+                {isOpen2 && <UpdateUser hideForm={() => setIsOpen2(false)}/>}
+                {isOpen3 && <CreateLibrary hideForm={() => setIsOpen3(false)}/>}
+                {editLibraryId && <></>}
+                {/* THIS SHOULD DISPLAY EDIT FORM FOR LIBRARY,
+                PASS IN HIDEFORM WITH setEditLibraryId */}
                 <div className='image-button'>
                     {imageUrl ? <img className='profilePic' src={imageUrl}/> : <img className='profilePic' src={`https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg`}/>}
 
@@ -98,13 +126,35 @@ const UserPage = () =>{
                         Followers:{followers > 0 ? followers : 0}
                     </h3>
                 </div>
-                {!alreadyFollowed ? <div onClick={handleFollow} className='subscribe'>
+                <div className='buttonsContainer'>
+                    {paramId === currentUser.id ? <div onClick={handleEdit} className='editProfile' > Edit Profile </div> : null}
+
+                    {paramId !== currentUser.id && currentUser.id >= 1?
+                    (!alreadyFollowed ? <div onClick={handleFollow} className='subscribe'>
                     Follow
-                </div> : <div onClick={handleUnfollow} className='subscribe'> Unfollow </div>}
+                    </div> : <div onClick={handleUnfollow} className='subscribe'> Unfollow </div>)
+                    : null}
+                </div>
 
             </div>
             {/* <COMP> FOR LIBRARIES (WHICH SHOULD RETURN DIV WITH BUTTON TO CREATE
                 AND NESTED DIV WITH GRID LAYOUT TO DISPLAY LIBRYS) */}
+            <div>
+                <button onClick={handleCreateLibrary} className='create-library'>Create Library</button>
+                <h2>Libraries</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Title</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <UserLibraries currentUser={currentSession} setEditLibraryId={setEditLibraryId} />
+                    </tbody>
+                </table>
+        </div>
         </body>
     )
 }

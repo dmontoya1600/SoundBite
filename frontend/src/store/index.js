@@ -4,11 +4,13 @@ import followerReducer from './follow';
 
 import sessionReducer from './session';
 import uploadPicReducer from './uploadPic'
+import librariesReducer from './library'
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   pic: uploadPicReducer,
   follow: followerReducer,
+  libraries: librariesReducer,
 });
 let enhancer;
 

@@ -7,6 +7,7 @@ import * as picActions from '../../store/uploadPic'
 
 
 const UploadImage = ({hideForm}) => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const [imageText, setImageText] = useState('');
     const userId = useSelector(state => state.session.user.id)
