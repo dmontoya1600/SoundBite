@@ -17,6 +17,14 @@ const loadPic = (imgUrl) => {
     }
 }
 
+export const getUser = (userId => async (dispatch) => {
+  const res = await fetch(`/api/users/${userId}`)
+  if(res.ok) {
+      const user = await res.json();
+      console.log('THIS IS THE PAGEUSER RESPONSED', user)
+      return user
+  }
+})
 
 export const uploadPic = (image, userId) => async (dispatch) => {
     const formData = new FormData();
@@ -46,13 +54,7 @@ export const loadImage = (userId) => async (dispatch) => {
     }
 }
 
-export const getUser = (userId => async (dispatch) => {
-    const res = await fetch(`/api/users/${userId}`)
-    if(res.ok) {
-        const user = await res.json();
-        return user
-    }
-})
+
 
 
     const uploadPicReducer = (state = {}, action) => {

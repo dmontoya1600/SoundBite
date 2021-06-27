@@ -1,10 +1,11 @@
 import { ADD_LIBRARY, LOAD_LIBRARIES} from './library';
-
+import {ADD_SOUNDBITE, LOAD_SOUNDBITES} from './soundBite'
 import { csrfFetch } from './csrf';
 import { useSelector } from 'react-redux';
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
-const UPLOAD_PIC = 'session/updatePic'
+const UPLOAD_PIC = 'session/updatePic';
+
 
 const setPic = (imgUrl) => {
   return {
@@ -147,15 +148,34 @@ const sessionReducer = (state = initialState, action) => {
         }
       };
     }
-    // case ADD_LIBRARY: {
-    //   return {
-    //     ...state,
-    //     [action.library.userId]: {
-    //       ...state[action.library.userId],
-    //       libraries: [...state[action.library.userId], action.library.id],
-    //     },
-    //   };
-    // }
+    case ADD_LIBRARY: {
+      return {
+        ...state,
+        [action.library.userId]: {
+          ...state[action.library.userId],
+          libraries: [...state[action.library.userId].libraries, action.library.id],
+        },
+      };
+    }
+    case LOAD_SOUNDBITES: {
+      console.log('THIS IS THE LOAD INSIDE SESSION', action.soundbites)
+      return {
+        ...state,
+        [action.userId]: {
+          ...state[action.userId],
+          soundbites: action.soundbites.map(soundbite => soundbite.id),
+        }
+      };
+    }
+    case ADD_SOUNDBITE: {
+      return {
+        ...state,
+        [action.soundbite.userId]: {
+          ...state[action.soundbite.userId],
+          soundbites: [...state[action.soundbite.userId].soundbites, action.soundbite.id],
+        },
+      };
+    }
     default:
       return state;
   }

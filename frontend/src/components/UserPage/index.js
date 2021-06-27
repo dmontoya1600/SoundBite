@@ -5,10 +5,15 @@ import UploadImage from './UploadImage';
 import './UserPage.css'
 import * as picActions from '../../store/uploadPic'
 import {loadImage, getUser} from '../../store/uploadPic'
+
 import {createFollow, getFollowers, removeFollow} from '../../store/follow'
 import UpdateUser from './UpdateUser'
 import UserLibraries from './libraries';
 import CreateLibrary from './createLibrary'
+import CreateSoundBite from './createSoundBite'
+import SoundBites from './SoundBites'
+import Navigation from './LowerNavbar'
+import UpdateLibrary from './UpdateLibrary';
 
 
 const UserPage = () =>{
@@ -34,8 +39,13 @@ const UserPage = () =>{
     const [isOpen, setIsOpen] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
     const [isOpen3, setIsOpen3] = useState(false);
+    const [isOpen4, setIsOpen4] = useState(false);
+    const [isOpen5, setIsOpen5] = useState(false);
+
+    const [activePage, setActivePage] = useState('library')
 
     const [editLibraryId, setEditLibraryId] = useState(null)
+    const [editSoundBiteId, setEditSoundBiteId] = useState(null)
 
     const dispatch = useDispatch();
     const images = useSelector(state =>  state.pic)
@@ -98,13 +108,59 @@ const UserPage = () =>{
     function handleCreateLibrary () {
         setIsOpen3(!isOpen3)
     }
+    function handleCreateSoundBite () {
+        setIsOpen4(!isOpen4)
+    }
 
+    function content () {
+        if(activePage === 'library'){
+            return (
+                <div className='library-page width-hundred' >
+                    <button onClick={handleCreateLibrary} className='create-library'>Create Library</button>
+                    <h2>Libraries</h2>
+                    <table className='width-hundred'>
+                        <thead>
+                        <tr>
+                            <th></th>
+
+                        </tr>
+                        </thead>
+                        <tbody className='width-hundred' >
+                        <UserLibraries setIsOpen5={setIsOpen5} currentUser={currentSession} setEditLibraryId={setEditLibraryId} />
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
+        else if (activePage === 'soundbite'){
+            return (
+                <div className='soundBite-page' >
+                    <button onClick={handleCreateSoundBite} className='create-soundBite'>Create SoundBite</button>
+                    <h2>SoundBites</h2>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <SoundBites currentUser={currentSession} setEditSoundBiteId={setEditSoundBiteId} />
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
+    }
     return (
         <body className='page'>
             <div className='profile-banner'>
                 {isOpen && <UploadImage hideForm={() => setIsOpen(false)} />}
                 {isOpen2 && <UpdateUser hideForm={() => setIsOpen2(false)}/>}
                 {isOpen3 && <CreateLibrary hideForm={() => setIsOpen3(false)}/>}
+                {isOpen4 && <CreateSoundBite libraries={currentSession[currentUser.id].libraries} hideForm={() => setIsOpen4(false)}/>}
+                {isOpen5 && <UpdateLibrary editLibraryId={editLibraryId} hideForm={() => setIsOpen5(false)}/>}
+
                 {editLibraryId && <></>}
                 {/* THIS SHOULD DISPLAY EDIT FORM FOR LIBRARY,
                 PASS IN HIDEFORM WITH setEditLibraryId */}
@@ -139,22 +195,10 @@ const UserPage = () =>{
             </div>
             {/* <COMP> FOR LIBRARIES (WHICH SHOULD RETURN DIV WITH BUTTON TO CREATE
                 AND NESTED DIV WITH GRID LAYOUT TO DISPLAY LIBRYS) */}
-            <div>
-                <button onClick={handleCreateLibrary} className='create-library'>Create Library</button>
-                <h2>Libraries</h2>
-                <table>
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Title</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <UserLibraries currentUser={currentSession} setEditLibraryId={setEditLibraryId} />
-                    </tbody>
-                </table>
-        </div>
+            <Navigation activePage={activePage} setActivePage={setActivePage}/>
+            <div className='lower-page width-hundred'>
+                {content()}
+            </div>
         </body>
     )
 }

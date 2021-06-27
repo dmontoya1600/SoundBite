@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
         model: 'Library'
       }
     },
+    imageUrl: {
+      type: DataTypes.STRING,
+    },
+    title: {
+      type: DataTypes.STRING,
+    },
     url: DataTypes.STRING
   }, {});
   SoundBite.associate = function(models) {

@@ -8,11 +8,19 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      title: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       userId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Users'
         }
+      },
+      imageUrl: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       libraryId: {
         type: Sequelize.INTEGER,

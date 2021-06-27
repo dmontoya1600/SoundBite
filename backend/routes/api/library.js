@@ -12,16 +12,16 @@ const router = express.Router();
 
 router.put(
     '/:id',
-    singleMulterUpload("image"),
     asyncHandler(async (req, res) => {
+      const {imageUrl, title} = req.body;
       const libraryId = req.params.id;
-      const profileImageUrl = await singlePublicFileUpload(req.file);
       const library = await Library.findByPk(libraryId)
       await library.update({
-        imgUrl: profileImageUrl
+        imageUrl,
+        title,
       });
 
-      return res.json(profileImageUrl)
+      return res.json(library)
     })
 )
 

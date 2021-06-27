@@ -1,7 +1,7 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Subscription, Library } = require('../../db/models');
+const { User, Subscription, Library, SoundBite } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
@@ -118,12 +118,22 @@ const validateSignup = [
     '/:id/libraries',
     asyncHandler(async(req, res) => {
       const userId = req.params.id;
-      console.log('THIS ROUTE HAS BEEN HIT')
       const libraries = await Library.findAll({
         where: {userId}
       })
       return res.json(libraries)
     })
+)
+router.get(
+  '/:id/soundbites',
+  asyncHandler(async(req, res) => {
+    const userId = req.params.id;
+    console.log('THIS ROUTE HAS BEEN HIT')
+    const soundbites = await SoundBite.findAll({
+      where: {userId}
+    })
+    return res.json(soundbites)
+  })
 )
 
 router.post(
@@ -137,6 +147,23 @@ router.post(
           userId,
         })
         res.json(library)
+      }
+))
+
+router.post(
+  '/:id/soundbites',
+    asyncHandler(async(req, res) =>{
+        const {title, url, libraryId, imageUrl} = req.body;
+        const userId = req.params.id;
+
+        const soundbite = await SoundBite.create({
+          title,
+          libraryId,
+          userId,
+          url,
+          imageUrl,
+        })
+        res.json(soundbite)
       }
 ))
 

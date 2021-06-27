@@ -1,6 +1,15 @@
 import { csrfFetch } from './csrf';
+import { LOAD_SOUNDBITES } from './soundBite';
 export const LOAD_LIBRARIES = "libraries/LOAD_LIBRARIES";
 export const ADD_LIBRARY = "libraries/ADD_LIBRARY";
+export const UPDATE_LIBRARY = 'libraries/UPDATE_LIBRARY'
+
+const update = (library) => (
+    {
+        type: UPDATE_LIBRARY,
+        library,
+    }
+)
 
 
 const load = (libraries, userId) => (
@@ -14,6 +23,21 @@ const add = (library) => ({
     library,
   });
 
+
+export const updateLibrary = (data, id) => async(dispatch) => {
+    const res = await csrfFetch(`/api/libraries/${id}`, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    if(res.ok) {
+        const library = await res.json()
+        dispatch(update(library))
+        return library
+    }
+}
 
 export const getLibraries = (userId) => async (dispatch) => {
     const res = await csrfFetch(`/api/users/${userId}/libraries`)
@@ -39,6 +63,7 @@ export const createLibrary = (library, userId) => async dispatch => {
 
     if (response.ok) {
       const newLibrary = await response.json();
+
       dispatch(add(newLibrary));
       return newLibrary;
     }
@@ -60,7 +85,32 @@ const librariesReducer = (state = {}, action) => {
                 ...newLibraries
             }
         }
-        case ADD_LIBRARY:
+        case ADD_LIBRARY: {
+
+            return {
+                ...state,
+                [action.library.id]: action.library
+            }
+        }
+        case LOAD_SOUNDBITES: {
+            if(!action.libId) return state
+            return {
+              ...state,
+              [action.libId]: {
+                ...state[action.libId],
+                soundbites: action.soundbites.map(soundbite => {
+                    if(soundbite.libraryId !== action.libId) return;
+                    return soundbite.id;
+                }),
+              }
+            };
+          }
+          case UPDATE_LIBRARY: {
+              return {
+                  ...state,
+                  [action.library.id]: action.library
+              }
+          }
         default:
             return state
     }

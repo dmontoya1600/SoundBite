@@ -1,0 +1,14 @@
+.soundbite{
+    height: 40px;
+    font-size: 15px;
+    border-style: solid;
+    display: flex;
+    flex-direction: row;
+    border-color: rgb(175, 175, 175);
+    width: 100%;
+}
+
+.soundbite-image {
+    height: 40px;
+    width: 40px;
+}

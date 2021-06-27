@@ -1,0 +1,29 @@
+.lownav {
+
+    background-color: black;
+    overflow: hidden;
+    display:flex;
+    justify-content: flex-start
+  }
+
+.lownav div{
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+
+/* .userPage{
+    margin-right: auto;
+} */
+.lownav div:hover {
+    background-color: rgb(255, 106, 0);
+    color: black;
+}
+.active{
+    background-color: rgb(255, 106, 0);
+    color: black;
+}

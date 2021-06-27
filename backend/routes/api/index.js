@@ -13,6 +13,6 @@ router.use('/users', usersRouter);
 
 router.use('/follow', followRouter);
 
-router.use('/library', libraryRouter);
+router.use('/libraries', libraryRouter);
 
 module.exports = router;
