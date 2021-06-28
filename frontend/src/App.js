@@ -21,7 +21,8 @@ function App() {
   const sessionUser = useSelector(state => state.session.user);
   return (
     <>
-      <Navigation isLoaded={isLoaded} />
+    <Navigation isLoaded={isLoaded} />
+    <div className='invisible'></div>
       {isLoaded && (
         <Switch>
           <Route exact path='/'>

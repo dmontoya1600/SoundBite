@@ -14,6 +14,8 @@ import CreateSoundBite from './createSoundBite'
 import SoundBites from './SoundBites'
 import Navigation from './LowerNavbar'
 import UpdateLibrary from './UpdateLibrary';
+import UpdateSoundBite from './UpdateSoundBite'
+import UpdateComment from './UpdateComment'
 
 
 const UserPage = () =>{
@@ -41,11 +43,13 @@ const UserPage = () =>{
     const [isOpen3, setIsOpen3] = useState(false);
     const [isOpen4, setIsOpen4] = useState(false);
     const [isOpen5, setIsOpen5] = useState(false);
+    const [isOpen6, setIsOpen6] = useState(false);
 
     const [activePage, setActivePage] = useState('library')
 
     const [editLibraryId, setEditLibraryId] = useState(null)
     const [editSoundBiteId, setEditSoundBiteId] = useState(null)
+    const [editCommentId, setEditCommentId] = useState(null)
 
     const dispatch = useDispatch();
     const images = useSelector(state =>  state.pic)
@@ -116,8 +120,8 @@ const UserPage = () =>{
         if(activePage === 'library'){
             return (
                 <div className='library-page width-hundred' >
-                    <button onClick={handleCreateLibrary} className='create-library'>Create Library</button>
-                    <h2>Libraries</h2>
+                    {currentUser.id === paramId ? <button onClick={handleCreateLibrary} className='create-library'>Create Library</button>: null}
+
                     <table className='width-hundred'>
                         <thead>
                         <tr>
@@ -125,7 +129,7 @@ const UserPage = () =>{
 
                         </tr>
                         </thead>
-                        <tbody className='width-hundred' >
+                        <tbody >
                         <UserLibraries setIsOpen5={setIsOpen5} currentUser={currentSession} setEditLibraryId={setEditLibraryId} />
                         </tbody>
                     </table>
@@ -135,33 +139,24 @@ const UserPage = () =>{
         else if (activePage === 'soundbite'){
             return (
                 <div className='soundBite-page' >
-                    <button onClick={handleCreateSoundBite} className='create-soundBite'>Create SoundBite</button>
-                    <h2>SoundBites</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th></th>
+                    {currentUser.id === paramId ?<button onClick={handleCreateSoundBite} className='create-soundBite'>Create SoundBite</button>: null}
 
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <SoundBites currentUser={currentSession} setEditSoundBiteId={setEditSoundBiteId} />
-                        </tbody>
-                    </table>
+                        <SoundBites setEditCommentId={setEditCommentId} currentUser={currentSession} setEditSoundBiteId={setEditSoundBiteId} setEditSoundBiteId={setEditSoundBiteId} />
+
                 </div>
             )
         }
     }
     return (
-        <body className='page'>
+        <div className='page'>
             <div className='profile-banner'>
                 {isOpen && <UploadImage hideForm={() => setIsOpen(false)} />}
                 {isOpen2 && <UpdateUser hideForm={() => setIsOpen2(false)}/>}
                 {isOpen3 && <CreateLibrary hideForm={() => setIsOpen3(false)}/>}
                 {isOpen4 && <CreateSoundBite libraries={currentSession[currentUser.id].libraries} hideForm={() => setIsOpen4(false)}/>}
                 {isOpen5 && <UpdateLibrary editLibraryId={editLibraryId} hideForm={() => setIsOpen5(false)}/>}
-
-                {editLibraryId && <></>}
+                {editSoundBiteId && <UpdateSoundBite editSoundBiteId={editSoundBiteId} hideForm={() => setEditSoundBiteId(null)}/> }
+                {editCommentId && <UpdateComment editCommentId={editCommentId} hideForm={() => setEditCommentId(null)}/>}
                 {/* THIS SHOULD DISPLAY EDIT FORM FOR LIBRARY,
                 PASS IN HIDEFORM WITH setEditLibraryId */}
                 <div className='image-button'>
@@ -173,7 +168,7 @@ const UserPage = () =>{
                 </div>
                 <div>
                     <h1 className='profile-text'>
-                        {pageUser.username}
+                        {currentUser.id === paramId ? currentUser.username : pageUser.username}
                     </h1>
                     <h3 className='profile-text'>
                         Following:{following > 0 ? following : 0}
@@ -199,7 +194,7 @@ const UserPage = () =>{
             <div className='lower-page width-hundred'>
                 {content()}
             </div>
-        </body>
+        </div>
     )
 }
 

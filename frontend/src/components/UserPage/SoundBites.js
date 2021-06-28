@@ -3,9 +3,10 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {Redirect, useParams, useHistory} from 'react-router-dom'
 import { getSoundBites } from "../../store/soundBite";
+import Comments from './Comments.js'
+import './Soundbite.css'
 
-
-const SoundBites = ({ currentUser, setEditSoundBiteId }) => {
+const SoundBites = ({ currentUser, setEditSoundBiteId , setEditCommentId}) => {
     const paramId = Number(useParams().userId);
     const [effectRan, setEffectRan] = useState(false)
 
@@ -16,8 +17,7 @@ const SoundBites = ({ currentUser, setEditSoundBiteId }) => {
     console.log('ENTIRE STATE', currentUser[paramId].soundbites, state)
     return currentUser[paramId].soundbites.map(soundbiteId => state.soundbites[soundbiteId]);
   });
-  console.log('SHOULD HAVE A VALUE ARR BY THIS TIME',soundbites)
-//
+
   useEffect(async () => {
       let bitevalue = await dispatch(getSoundBites(paramId))
       bitevalue.forEach(soundbite => {
@@ -38,25 +38,28 @@ const SoundBites = ({ currentUser, setEditSoundBiteId }) => {
     return null;
   }
   return soundbites.map((soundbite) => (
-    <tr key={soundbite.id}>
+    !soundbite ? null :
+    <tr className='soundbite-row' key={soundbite.id}>
       <td>
         <img
-          className="library-image"
+          className="bite-image"
 
           alt={soundbite.imageUrl}
           src={`${soundbite.imageUrl}`}
         />
       </td>
-      <td>{soundbite.title}</td>
 
-      {currentUser.user.id === paramId ?
-        <td className="centered">
-          <button onClick={() => setEditSoundBiteId(soundbite.id)}>
-            Edit
-          </button>
-        </td>
-      : null}
-
+      <td className='bite-info'>
+        <div className='soundbite-title'>{soundbite.title}</div>
+        {currentUser.user?.id === paramId ?
+            <div className="edit-soundbite">
+            <button onClick={() => setEditSoundBiteId(soundbite.id)}>
+                Edit
+            </button>
+            </div>
+        : null}
+      </td>
+      <Comments setEditCommentId={setEditCommentId} soundbiteId={soundbite.id}/>
     </tr>
   ));
 };

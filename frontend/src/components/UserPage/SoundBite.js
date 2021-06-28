@@ -11,9 +11,12 @@ const SoundBite = ({id}) => {
         return state.soundbites;
     })
     const soundbite = allSoundbites[id]
+    // useEffect(() => {
+
+    // })
     if(!soundbite) return null;
     return (
-        <div className='soundbite'>
+        <div key={id} className='soundbite'>
             <img className='soundbite-image'
             alt={soundbite.imageUrl}
             src={`${soundbite.imageUrl}`} />

@@ -1,8 +1,9 @@
 import { csrfFetch } from './csrf';
-import { LOAD_SOUNDBITES } from './soundBite';
+import { LOAD_SOUNDBITES, REMOVE_SOUNDBITE } from './soundBite';
 export const LOAD_LIBRARIES = "libraries/LOAD_LIBRARIES";
 export const ADD_LIBRARY = "libraries/ADD_LIBRARY";
 export const UPDATE_LIBRARY = 'libraries/UPDATE_LIBRARY'
+export const REMOVE_LIRBARY = 'libraries/REMOVE_LIBRARY'
 
 const update = (library) => (
     {
@@ -23,6 +24,18 @@ const add = (library) => ({
     library,
   });
 
+  const remove = (libraryId, userId) => ({
+    type: REMOVE_LIRBARY,
+    libraryId,
+    userId,
+  });
+
+export const getAllLibraries = () => async(dispatch) => {
+    const res = await csrfFetch('/api/libraries')
+
+    const libraries = res.json()
+    return libraries
+}
 
 export const updateLibrary = (data, id) => async(dispatch) => {
     const res = await csrfFetch(`/api/libraries/${id}`, {
@@ -38,6 +51,17 @@ export const updateLibrary = (data, id) => async(dispatch) => {
         return library
     }
 }
+
+export const deleteLibrary = libraryId => async dispatch => {
+    const response = await csrfFetch(`/api/libraries/${libraryId}`, {
+      method: 'delete',
+    });
+
+    if (response.ok) {
+      const library = await response.json();
+      dispatch(remove(library.id, library.userId));
+    }
+  };
 
 export const getLibraries = (userId) => async (dispatch) => {
     const res = await csrfFetch(`/api/users/${userId}/libraries`)
@@ -76,10 +100,6 @@ const librariesReducer = (state = {}, action) => {
             action.libraries.forEach(library => {
                 newLibraries[library.id] = library;
             })
-            console.log('IS THIS DISPATCH BEING HIT?',{
-                ...state,
-                ...newLibraries
-            })
             return {
                 ...state,
                 ...newLibraries
@@ -105,11 +125,27 @@ const librariesReducer = (state = {}, action) => {
               }
             };
           }
+          case REMOVE_SOUNDBITE: {
+            return {
+              ...state,
+              [action.libraryId]: {
+                ...state[action.libraryId],
+                soundbites: state[action.libraryId].soundbites.filter(
+                  (soundbiteId) => soundbiteId !== action.soundbiteId
+                ),
+              }
+            }
+          }
           case UPDATE_LIBRARY: {
               return {
                   ...state,
                   [action.library.id]: action.library
               }
+          }
+          case REMOVE_LIRBARY: {
+            const newState = {...state};
+            delete newState[action.libraryId]
+            return newState
           }
         default:
             return state

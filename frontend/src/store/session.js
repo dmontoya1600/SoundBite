@@ -1,5 +1,5 @@
-import { ADD_LIBRARY, LOAD_LIBRARIES} from './library';
-import {ADD_SOUNDBITE, LOAD_SOUNDBITES} from './soundBite'
+import { ADD_LIBRARY, LOAD_LIBRARIES, REMOVE_LIRBARY} from './library';
+import {ADD_SOUNDBITE, LOAD_SOUNDBITES, UPDATE_SOUNDBITE, REMOVE_SOUNDBITE} from './soundBite'
 import { csrfFetch } from './csrf';
 import { useSelector } from 'react-redux';
 const SET_USER = 'session/setUser';
@@ -41,12 +41,22 @@ export const login = (user) => async (dispatch) => {
   return response;
 };
 
+export const getUsers = () => async (dispatch) => {
+
+  const res = await csrfFetch('/api/users')
+
+  const list = await res.json();
+  console.log('P THIS IS LIST', list)
+  return list;
+}
+
 export const restoreUser = () => async dispatch => {
   const response = await csrfFetch('/api/session');
   const data = await response.json();
   dispatch(setUser(data.user));
   return response;
 };
+
 export const uploadPic = (image, userId) => async (dispatch) => {
   const formData = new FormData();
 
@@ -80,7 +90,7 @@ export const uploadPic = (image, userId) => async (dispatch) => {
     const data = await response.json();
     dispatch(setUser(data.user));
 
-    return response;
+    return data;
   }
 
   export const signup = (user) => async (dispatch) => {
@@ -148,6 +158,7 @@ const sessionReducer = (state = initialState, action) => {
         }
       };
     }
+    
     case ADD_LIBRARY: {
       return {
         ...state,
@@ -175,6 +186,29 @@ const sessionReducer = (state = initialState, action) => {
           soundbites: [...state[action.soundbite.userId].soundbites, action.soundbite.id],
         },
       };
+    }
+    case REMOVE_LIRBARY: {
+
+      return {
+        ...state,
+        [action.userId]: {
+          ...state[action.userId],
+          libraries: state[action.userId].libraries.filter(
+            (libraryId) => libraryId !== action.libraryId
+          ),
+        }
+      }
+    }
+    case REMOVE_SOUNDBITE: {
+      return {
+        ...state,
+        [action.userId]: {
+          ...state[action.userId],
+          soundbites: state[action.userId].soundbites.filter(
+            (soundbiteId) => soundbiteId !== action.soundbiteId
+          ),
+        }
+      }
     }
     default:
       return state;

@@ -6,6 +6,7 @@ import sessionReducer from './session';
 import uploadPicReducer from './uploadPic'
 import librariesReducer from './library'
 import soundBitesRedeucer from './soundBite'
+import commentsReducer from './comment'
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   follow: followerReducer,
   libraries: librariesReducer,
   soundbites: soundBitesRedeucer,
+  comments: commentsReducer,
 });
 let enhancer;
 

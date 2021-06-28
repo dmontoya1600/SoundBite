@@ -9,7 +9,7 @@ import './Library.css'
 
 
 
-const UserLibraries = ({ currentUser, setEditLibraryId , setIsOpen5}) => {
+const UserLibraries = ({ currentUser, setEditLibraryId , setEditSoundBiteId, setIsOpen5}) => {
     const paramId = Number(useParams().userId);
 
 
@@ -41,6 +41,7 @@ const UserLibraries = ({ currentUser, setEditLibraryId , setIsOpen5}) => {
     useEffect(async () => {
         if(libraries){
             await libraries.forEach(library => {
+                if(library.id)
                 dispatch(getSoundBites(paramId, library.id))
               })
         }
@@ -57,44 +58,44 @@ const UserLibraries = ({ currentUser, setEditLibraryId , setIsOpen5}) => {
       if(!soundbites) return null;
       console.log('I BELIEVE WE ARE PASSING THE NULL')
       return soundbites.map(id => (
-           <SoundBite id={id} />
+           <SoundBite key={id} setEditSoundBiteId={setEditSoundBiteId} id={id} />
       ))
   }
   return libraries.map((library) => (
-    <tr key={library.id} className='width-hundred'>
-      <td>
+
+    library === undefined ? null : (<tr key={library.id} className='width-hundred library-row'>
+      <td >
         <img
           className="library-image"
           alt={library.imageUrl}
           src={`${library.imageUrl}`}
         />
       </td>
-      <td>{library.title}</td>
-
-      {currentUser.user.id === paramId ?
-        <td className="centered">
-          <button onClick={() => {
-              setIsOpen5(true)
-              setEditLibraryId(library.id)}}>
-            Edit
-          </button>
-        </td>
-      : null}
       <div className='width-hundred'>
             {/* <button onClick={handleCreateBite} className='create-bite'>Create SoundBite</button> */}
                 <table className='width-hundred'>
                     <thead>
                     </thead>
-                    <tbody className='width-hundred'>
+                    <tbody className='end-of-container'>
                     {/* <UserLibraries currentUser={currentUser} setEditLibraryId={setEditLibraryId} /> */}
                     {/* <SoundBite id={} /> */}
                     <div className='soundbite-container'>
                         {bites(library.soundbites)}
                     </div>
+                    <td className='library-title' >{library.title}
+                        {currentUser.user?.id === paramId ?
+                            <div className='edit' onClick={() => {
+                                setIsOpen5(true)
+                                setEditLibraryId(library.id)}}>
+                                Edit
+                            </div>
+
+                        : null}
+                    </td>
                     </tbody>
                 </table>
       </div>
-    </tr>
+    </tr>)
   ));
 };
 

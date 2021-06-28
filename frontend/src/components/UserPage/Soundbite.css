@@ -2,13 +2,90 @@
     height: 40px;
     font-size: 15px;
     border-style: solid;
+    border-width: thin;
     display: flex;
     flex-direction: row;
     border-color: rgb(175, 175, 175);
-    width: 100%;
+    width: 99%;
+    align-items: center;
+    margin-top: 2px;
 }
 
 .soundbite-image {
     height: 40px;
     width: 40px;
+}
+
+/* h4{
+    margin-left: 10px;
+}
+
+
+.bite-info{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.comments-body{
+    width: 500px;
+    background-color: teal;
+} */
+.edit-soundbite button{
+    background-color: rgba(255, 106, 0, 0.868);
+    color: white;
+    /* position: absolute; */
+
+}
+.edit-soundbite button:hover{
+    background-color: rgb(200, 83, 0);
+}
+.edit-comment{
+    /* width: 10%; */
+    background-color: rgba(255, 106, 0, 0.868);
+    color: white;
+
+}
+.edit-comment:hover{
+    background-color: rgb(200, 83, 0);
+}
+.soundbite-title{
+    font-size: 25px;
+}
+.comment-section{
+    width: 500px;
+
+    height: 50%;
+    border-style: solid;
+    border-width: thin;
+    display: flex;
+    justify-items: flex-start;
+    flex-direction: column;
+    /* margin-right: 400px; */
+    overflow-y: scroll;
+}
+.soundbite-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    border-style: solid;
+    border-width: thin;
+    border-color: rgba(255, 106, 0, 0.32);
+    height: 250px;
+    width: 1000px;
+    margin-left: 15%;
+}
+.bite-image{
+    height: 250px;
+    width: 250px;
+    border-radius: 10%;
+}
+.comment-body{
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    border-style: solid;
+    border-width: thin;
+    border-color: rgba(255, 166, 0, 0.306);
+    width: 99%;
 }

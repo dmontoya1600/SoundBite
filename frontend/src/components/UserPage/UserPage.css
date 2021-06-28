@@ -37,10 +37,16 @@ tr.width-hundred{
 
   }
   .library-image{
-      height: 150px;
+      height: 138px;
+      width: 150px;
   }
+
+.soundBite-page{
+    /* height: auto; */
+}
 .profile-banner{
     /* background-size: cover; */
+    /* margin-top: 48px; */
     top: 0px;
     display: flex;
     background-image: url(https://i.pinimg.com/originals/7d/76/72/7d76721a7c0e9121f19c6641762fa968.png);
@@ -52,6 +58,42 @@ tr.width-hundred{
 
 }
 
+.create-soundBite{
+    background-color: rgba(255, 106, 0, 0.868);
+    margin-left: 10px;
+
+    color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    border-radius: 5%;
+    padding: 10px;
+    cursor: pointer;
+    width: 10%;
+
+}
+.create-soundBite:hover{
+    background-color: rgb(200, 83, 0);
+}
+.create-library{
+    background-color: rgba(255, 106, 0, 0.868);
+    margin-left: 10px;
+
+    color: white;
+    display: flex;
+    justify-content: center;
+    border-radius: 5%;
+    padding: 10px;
+    cursor: pointer;
+    width: 8%;
+
+}
+.create-library:hover{
+    background-color: rgb(200, 83, 0);
+}
+tbody{
+    width: 99%;
+}
 .profilePic {
     border-radius: 50%;
     height: 200px;
@@ -155,7 +197,23 @@ tr.width-hundred{
 body{
     background-color: rgb(62, 62, 62);
 }
+/* .page{
+    margin-top: 100px;
+} */
 
 .lower-page{
     background-color: white;
+    padding-top: 10px;
+    overflow-y: scroll;
+}
+
+.library-row{
+    border-style: solid;
+    border-width: thin;
+    border-color: rgba(255, 106, 0, 0.107);
+
+
+}
+.soundBite-page{
+    
 }

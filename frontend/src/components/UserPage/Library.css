@@ -1,9 +1,45 @@
 .soundbite-container{
 
-    height: 200px;
-    width: 60%;
+    height: 138px;
+    width: 70%;
+    overflow-y: auto;
 }
 
 .width-hundred{
     width: 100%;
 }
+
+.edit{
+    background-color: rgba(255, 106, 0, 0.868);
+    /* margin-top: 50%; */
+    width: 122px;
+    display: flex;
+    justify-content: center;
+    border-radius: 10%;
+    /* padding: 10px; */
+    cursor: pointer;
+}
+
+.edit:hover{
+    background-color: rgb(200, 83, 0);
+}
+.library-title{
+    height: 138px;
+   padding-left: 50px;
+   display: flex;
+   flex-direction: column;
+   font-size: 30px;
+   justify-content: space-around;
+
+}
+
+.library-row{
+    border-style: solid;
+    border-width: thin;
+
+}
+ .end-of-container{
+     display: flex;
+     flex-direction: row;
+     height: 138px;
+ }
