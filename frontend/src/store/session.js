@@ -158,7 +158,7 @@ const sessionReducer = (state = initialState, action) => {
         }
       };
     }
-    
+
     case ADD_LIBRARY: {
       return {
         ...state,
