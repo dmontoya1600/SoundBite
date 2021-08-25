@@ -69,12 +69,22 @@ export const getSoundBites = (userId, libId) => async (dispatch) => {
 }
 
 export const createSoundBite = (data, userId) => async dispatch => {
+    const formData = new FormData()
+    if(data.url){
+        formData.append("audio", data.url)
+    }
+    formData.append('title', data.title)
+    formData.append('libraryId', data.libraryId)
+    formData.append('imageUrl', data.imageUrl)
+    console.log('THIS IS FORMDATA', formData)
+    console.log('THIS IS FORMDATA', formData.keys())
+
     const response = await csrfFetch(`/api/users/${userId}/soundbites`, {
       method: 'post',
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "multipart/form-data",
       },
-      body: JSON.stringify(data),
+      body: formData, data
     });
 
     if (response.ok) {

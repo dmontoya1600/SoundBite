@@ -98,4 +98,5 @@ module.exports = {
   retrievePrivateFile,
   singleMulterUpload,
   multipleMulterUpload,
+  storage,
 };

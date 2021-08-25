@@ -5,7 +5,9 @@ const { User, Subscription, Library, SoundBite } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
-const {singlePublicFileUpload, singleMulterUpload} = require('../../awsS3')
+const {singlePublicFileUpload, singleMulterUpload, storage, multipleMulterUpload} = require('../../awsS3')
+const multer = require('multer');
+const upload = multer();
 
 const validateSignup = [
     check('email')
@@ -134,7 +136,6 @@ router.get(
   '/:id/soundbites',
   asyncHandler(async(req, res) => {
     const userId = req.params.id;
-    console.log('THIS ROUTE HAS BEEN HIT')
     const soundbites = await SoundBite.findAll({
       where: {userId}
     })
@@ -158,9 +159,15 @@ router.post(
 
 router.post(
   '/:id/soundbites',
+  // upload.fields([{ name: 'image ', maxCount: 1 }, { name: 'title' }]),
+    singleMulterUpload('audio'),
     asyncHandler(async(req, res) =>{
-        const {title, url, libraryId, imageUrl} = req.body;
+        const {title, libraryId, imageUrl} = req.body;
         const userId = req.params.id;
+        console.log('THIS IS REQ', req.body)
+        console.log('THISIS FILE', req.file)
+        const url = await singlePublicFileUpload(req.file);
+
 
         const soundbite = await SoundBite.create({
           title,

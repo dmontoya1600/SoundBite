@@ -21,6 +21,7 @@ const SoundBite = ({id}) => {
             alt={soundbite.imageUrl}
             src={`${soundbite.imageUrl}`} />
             <h4>{soundbite.title}</h4>
+            <audio controls src={soundbite.url}/>
         </div>
     )
 }

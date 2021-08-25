@@ -4,6 +4,7 @@ import {Redirect, useParams, useHistory} from 'react-router-dom'
 import * as sessionActions from '../../store/session'
 import * as picActions from '../../store/uploadPic'
 import { createSoundBite } from '../../store/soundBite';
+import UploadImage from './UploadImage';
 
 
 const CreateSoundBite = ({hideForm, libraries}) => {
@@ -45,6 +46,9 @@ const CreateSoundBite = ({hideForm, libraries}) => {
     //     hideForm()
     // }
     // EACH INPUT SHOULD HAVE A VALUE OF CURRENT USER INFO AND PLACEHOLDER TOO
+    function uploadAudio(e){
+        setUrl(e.target.files[0])
+    }
     return (
         <div className='popup-background'>
             <div className='box'>
@@ -63,12 +67,12 @@ const CreateSoundBite = ({hideForm, libraries}) => {
                     </select>
                 </label>
                 <label>
-                    AUDIO URL
-                    <input type='text' value={url} onChange={(e) => {setUrl(e.target.value)}} />
-                </label>
-                <label>
                     IMAGE URL
                     <input type='text' value={imageUrl} onChange={(e) => {setImageUrl(e.target.value)}} />
+                </label>
+                <label>
+                    AUDIO FILE
+                    <input type='file' onChange={uploadAudio} />
                 </label>
                 <button className='submit' onClick={handleSubmit}>Create</button>
                 {/* <button className='delete' onClick={handleDelete}>Delete User</button> */}
