@@ -21,7 +21,6 @@ export const getUser = (userId => async (dispatch) => {
   const res = await fetch(`/api/users/${userId}`)
   if(res.ok) {
       const user = await res.json();
-      console.log('THIS IS THE PAGEUSER RESPONSED', user)
       return user
   }
 })

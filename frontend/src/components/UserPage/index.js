@@ -22,7 +22,6 @@ const UserPage = () =>{
     let currentUser = useSelector(state => state.session.user)
     let currentSession = useSelector(state => state.session)
 
-    console.log('THIS IS T HE CURRENT SESSION', currentSession)
     let followCount = useSelector(state => state.followers)
     let history = useHistory();
     if(!currentUser){

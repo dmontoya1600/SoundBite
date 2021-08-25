@@ -17,7 +17,6 @@ const UpdateLibrary = ({hideForm, editLibraryId}) => {
     const libraryId= editLibraryId;
     const userId = user.id
     const forceUpdate = useForceUpdate();
-    console.log('THIS IS THE USER',user)
 
     async function handleClose(e) {
 

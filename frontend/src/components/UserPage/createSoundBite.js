@@ -25,7 +25,6 @@ const CreateSoundBite = ({hideForm, libraries}) => {
         hideForm()
     }
     async function handleSubmit(e) {
-         console.log('WELCOME TO THE SUBMIT LIBRARY ID', libraryId)
         const data = {
             title,
             libraryId,

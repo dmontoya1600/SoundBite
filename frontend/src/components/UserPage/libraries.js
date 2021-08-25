@@ -14,10 +14,8 @@ const UserLibraries = ({ currentUser, setEditLibraryId , setEditSoundBiteId, set
 
 
   const dispatch = useDispatch();
-  console.log('THIS IS POKE OBJ', currentUser[paramId])
   const libraries = useSelector((state) => {
     if (!currentUser[paramId] || !currentUser[paramId].libraries) return null;
-    console.log('THIS IS STATE LIBS', state.libraries)
     return currentUser[paramId].libraries.map(libraryId => state.libraries[libraryId]);
   });
   const allSoundbites = useSelector(state => {
@@ -34,7 +32,6 @@ const UserLibraries = ({ currentUser, setEditLibraryId , setEditSoundBiteId, set
         })
 
 
-        console.log('THIS IS ITEMS DISPATCH', currentUser.libraries)
 
 
     }, [paramId])
@@ -46,8 +43,6 @@ const UserLibraries = ({ currentUser, setEditLibraryId , setEditSoundBiteId, set
               })
         }
     },[])
-    console.log('SHOULD HAVE A VALUE ARR BY THIS TIME',libraries)
-    console.log('THIS IS ALL LIBRSa', allSoundbites)
     if (!libraries) {
     return null;
   }
@@ -56,7 +51,6 @@ const UserLibraries = ({ currentUser, setEditLibraryId , setEditSoundBiteId, set
   }
   function bites (soundbites) {
       if(!soundbites) return null;
-      console.log('I BELIEVE WE ARE PASSING THE NULL')
       return soundbites.map(id => (
            <SoundBite key={id} setEditSoundBiteId={setEditSoundBiteId} id={id} />
       ))

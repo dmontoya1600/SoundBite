@@ -76,8 +76,6 @@ export const createSoundBite = (data, userId) => async dispatch => {
     formData.append('title', data.title)
     formData.append('libraryId', data.libraryId)
     formData.append('imageUrl', data.imageUrl)
-    console.log('THIS IS FORMDATA', formData)
-    console.log('THIS IS FORMDATA', formData.keys())
 
     const response = await csrfFetch(`/api/users/${userId}/soundbites`, {
       method: 'post',
@@ -102,10 +100,6 @@ export const createSoundBite = (data, userId) => async dispatch => {
                 if(!state[soundbite.id]){
                     newSoundbites[soundbite.id] = soundbite;
                 }
-            })
-            console.log('IS LOAD DISPATCH SOUNDBITES BEING HIT',{
-                ...state,
-                ...newSoundbites
             })
             return {
                 ...state,

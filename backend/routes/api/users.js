@@ -106,7 +106,6 @@ const validateSignup = [
     '/:id',
     asyncHandler(async(req, res) => {
       const userId = req.params.id;
-      console.log('THIS IS THE USER ID', userId)
       await Subscription.destroy({
         where:{creatorUserId: userId}
       })
@@ -164,8 +163,6 @@ router.post(
     asyncHandler(async(req, res) =>{
         const {title, libraryId, imageUrl} = req.body;
         const userId = req.params.id;
-        console.log('THIS IS REQ', req.body)
-        console.log('THISIS FILE', req.file)
         const url = await singlePublicFileUpload(req.file);
 
 

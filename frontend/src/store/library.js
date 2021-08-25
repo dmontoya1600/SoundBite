@@ -65,12 +65,10 @@ export const deleteLibrary = libraryId => async dispatch => {
 
 export const getLibraries = (userId) => async (dispatch) => {
     const res = await csrfFetch(`/api/users/${userId}/libraries`)
-    console.log('MAYBE PART WASNT  HIT')
 
 
     if(res.ok){
         const list = await res.json();
-        console.log('THIS IS THE LIST FOR LIBRARIES', list)
         dispatch(load(list, userId))
         return list;
     }

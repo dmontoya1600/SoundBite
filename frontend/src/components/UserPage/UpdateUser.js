@@ -15,14 +15,12 @@ const UpdateUser = ({hideForm}) => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState([]);
     const userId = user.id
-    console.log('THIS IS THE USER',user)
 
     async function handleClose(e) {
 
         hideForm()
     }
      async function handleSubmit(e) {
-        console.log('THESE ARE THE VALUES', username, email)
         hideForm();
         if (password === confirmPassword) {
             setErrors([]);

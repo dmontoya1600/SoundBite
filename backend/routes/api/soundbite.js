@@ -38,7 +38,6 @@ router.post(
     '/:id/comments',
     asyncHandler(async(req,res)=> {
         const {userId, body} = req.body
-        console.log('WE ARE IN THE POST COMMENTS ROUTE', req.body)
         const soundBiteId = req.params.id
         const comment = await Comment.create({
             body,

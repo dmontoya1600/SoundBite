@@ -46,7 +46,6 @@ export const getUsers = () => async (dispatch) => {
   const res = await csrfFetch('/api/users')
 
   const list = await res.json();
-  console.log('P THIS IS LIST', list)
   return list;
 }
 
@@ -143,13 +142,6 @@ const sessionReducer = (state = initialState, action) => {
       newState.user = null;
       return newState;
     case LOAD_LIBRARIES: {
-      console.log('LOAD IN SESSIION IS BEING HIT', {
-        ...state,
-        [action.userId]: {
-          ...state[action.userId],
-          libraries: action.libraries.map(library => library.id),
-        }
-      })
       return {
         ...state,
         [action.userId]: {
@@ -169,7 +161,6 @@ const sessionReducer = (state = initialState, action) => {
       };
     }
     case LOAD_SOUNDBITES: {
-      console.log('THIS IS THE LOAD INSIDE SESSION', action.soundbites)
       return {
         ...state,
         [action.userId]: {

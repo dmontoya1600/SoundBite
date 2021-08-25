@@ -11,10 +11,8 @@ const SoundBites = ({ currentUser, setEditSoundBiteId , setEditCommentId}) => {
     const [effectRan, setEffectRan] = useState(false)
 
   const dispatch = useDispatch();
-  console.log('CURENTUSER OBJ', currentUser[paramId])
   const soundbites = useSelector((state) => {
     if (!currentUser[paramId] || !currentUser[paramId].soundbites) return null;
-    console.log('ENTIRE STATE', currentUser[paramId].soundbites, state)
     return currentUser[paramId].soundbites.map(soundbiteId => state.soundbites[soundbiteId]);
   });
 

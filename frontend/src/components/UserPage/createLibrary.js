@@ -13,7 +13,6 @@ const CreateLibrary = ({hideForm}) => {
     const [imageUrl, setImageUrl] = useState('')
     const userId = user.id
 
-    console.log('THIS IS THE USER',user)
 
     async function handleClose(e) {
 

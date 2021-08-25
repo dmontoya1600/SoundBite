@@ -32,19 +32,6 @@ function handleRedirection(userId){
   history.push(`/user/${userId}`)
 
 }
-// useEffect(async() => {
-//   setUsers(userList)
-// }, [userList?.[-1]?.imgUrl])
-//  function allUsers () {
-//    if (!users) return null
-//   console.log('USER LIST', users)
-//   return users.map(user => {
-//     return (<div className='user-card'>
-//       <img className='user-image' src={user.imgUrl ? user.imgUrl : `https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg`} />
-//       <h3>{user.username}</h3>
-//     </div>)
-//   })
-// }
 function handleClick() {
   if(sessionUser?.id > 0){
     history.push(`/user/${sessionUser.id}`)
