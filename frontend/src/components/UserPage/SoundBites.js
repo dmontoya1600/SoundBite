@@ -51,6 +51,7 @@ const SoundBites = ({ currentUser, setEditSoundBiteId , setEditCommentId}) => {
 
       <td className='bite-info'>
         <div className='soundbite-title'>{soundbite.title}</div>
+        <audio controls src={soundbite.url}/>
         {currentUser.user?.id === paramId ?
             <div className="edit-soundbite">
             <button onClick={() => setEditSoundBiteId(soundbite.id)}>
